@@ -43,16 +43,20 @@ Small=10000
 		Winner=${WinArray[$c]}
 		if (( $Winner > $Large ))
 		then
-			Large=$Winner
-			Day1=$(($c+1))
+			Large=$(($Winner+$Large))
 		fi
 		Losser=${LossArray[$c]}
 		if (( $Small < $Losser ))
 		then
-			Small=$Losser
-			Day2=$(($c+1))
+			Small=$(($Losser+$Small))
 		fi
 	done
-	echo "Lucky day in $(($p+1)) Month is $Day1 and Win Game that Day is $Large"
-	echo "UnLucky day in $(($p+1)) Month is $Day2 and Loss Game That Day is $Small"
-
+	
+	echo "Large :$Large  Small : $Small"
+	
+	if (( $Large > $Small ))
+	then
+		echo "Yes U r Able to Playing Next Month"
+	else
+		echo "No U r Not Able To Playing Next Month "
+	fi
