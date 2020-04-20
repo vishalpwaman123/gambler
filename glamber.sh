@@ -6,8 +6,12 @@ MaxMoney=150
 MinMoney=50
 Win=1
 i=0
-for (( M=0 ; M<12 ; M++ ))
-do
+Winner=0
+Losser=0
+Large=0
+Day1=0
+Day2=0
+Small=10000
 	for (( C=0 ; C<30 ; C++ ))
 	do	
 		Money=$Stack
@@ -26,21 +30,29 @@ do
 			fi
 		done
         	echo "Win : $WinPerDay  Loss : $LossPerDay"
-		WinArray[$M,$C]=$WinPerDay
-		LossArray[$M,$C]=$LossPerDay 
+		WinArray[$C]=$WinPerDay
+		LossArray[$C]=$LossPerDay 
 	done
-done
-for (( p=0 ;p<12 ;p++ ))
-do
-	echo "Win in $(($p+1)) Month"
-	for(( q=0 ; q<30 ; q++ ))
+
+
+
+	Large=0
+	Small=0
+	for(( c=0 ; c<30 ; c++ ))
 	do
-		echo "DAY $q :${WinArray[$p,$q]}"
+		Winner=${WinArray[$c]}
+		if (( $Winner > $Large ))
+		then
+			Large=$Winner
+			Day1=$(($c+1))
+		fi
+		Losser=${LossArray[$c]}
+		if (( $Small < $Losser ))
+		then
+			Small=$Losser
+			Day2=$(($c+1))
+		fi
 	done
-	
-	echo "Loss in $(($p+1)) Month"
-	for(( q=0 ; q<30 ; q++ ))
-	do
-		echo "DAY $q :${LossArray[$p,$q]}"
-	done
-done
+	echo "Lucky day in $(($p+1)) Month is $Day1 and Win Game that Day is $Large"
+	echo "UnLucky day in $(($p+1)) Month is $Day2 and Loss Game That Day is $Small"
+
